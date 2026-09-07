@@ -2,10 +2,13 @@
 #define MOUSEINFLUENCERULE_H
 
 #include "FlockingRule.h"
+#include <random>
+
 
 class MouseInfluenceRule : public FlockingRule {
 private:
   bool isRepulsive;
+  float constMultiplier = 10000.f;
 
 public:
   explicit MouseInfluenceRule(float weight = 1.f, bool isRepulsive_ = false, bool isEnabled = true)
