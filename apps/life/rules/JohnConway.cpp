@@ -1,8 +1,25 @@
 #include "JohnConway.h"
+#include <iostream>
 
 // Reference: https://playgameoflife.com/info
 void JohnConway::Step(World& world) {
   // todo: implement
+  for (int x = 0; x < world.SideSize(); x++) {
+    for (int y = 0; y < world.SideSize(); y++) {
+      int neighbors = CountNeighbors(world, {x, y});
+      if (world.Get({x, y})) {
+        if (neighbors < 2 || neighbors > 3) {
+          world.SetNext({x, y}, false);
+        } else {
+          world.SetNext({x, y}, true);
+        }
+      } else {
+        if (neighbors == 3) {
+          world.SetNext({x, y}, true);
+        }
+      }
+    }
+  }
 }
 
 int JohnConway::CountNeighbors(World& world, Point2D point) {
@@ -15,26 +32,12 @@ int JohnConway::CountNeighbors(World& world, Point2D point) {
     for (int y = 0; y < 3; y++) {
       if (x == 1 && y == 1) continue;
       Point2D addPoint = {x, y};
-      if (checkedPoint.x + x < 0)
-      {
-        addPoint.x = world.SideSize() - 1;
-      }
-      if (checkedPoint.y + y < 0) {
-        addPoint.y = world.SideSize() - 1;
-      }
-
-      if (checkedPoint.x + x + 1 >= world.SideSize()) {
-        addPoint.x = -world.SideSize() + 1;
-      }
-      if (checkedPoint.y + y + 1 >= world.SideSize()) {
-        addPoint.y = -world.SideSize() + 1;
-      }
-
       if (world.Get(checkedPoint + addPoint))
       {
         neighbors++;
       }
     }
   }
+
   return neighbors;
 }
