@@ -3,13 +3,13 @@
 #include <glm/glm.hpp>
 #include <algorithm>
 
-glm::vec2 BoundedAreaRule::computeForce(const std::vector<BoidView>& neighborhood, const BoidView& boid) {
+glm::vec2 BoundedAreaRule::computeForce(const std::vector<BoidView>& boids, int selfIndex) {
   glm::vec2 force(0.f);
   ImVec2 displaySize = ImGui::GetIO().DisplaySize;
   // desiredDistance is the distance from the borders that the boids should try to maintain. 
   glm::vec2 normal = {};
   // begin solution
-  glm::vec2 futurePos = boid.velocity * 0.0167f + boid.position;
+  glm::vec2 futurePos = boids[selfIndex].velocity * 0.0167f + boids[selfIndex].position;
   //early return if future pos is in box
   if (futurePos.x >= desiredDistance && futurePos.x <= displaySize.x - desiredDistance &&
       futurePos.y >= desiredDistance && futurePos.y <= displaySize.y - desiredDistance) {
@@ -27,7 +27,7 @@ glm::vec2 BoundedAreaRule::computeForce(const std::vector<BoidView>& neighborhoo
     normal = glm::vec2(0.f, -1.f);
   }
   // when a border is approached, a center-pointing force is applied
-  glm::vec2 centerDir = boid.position - glm::vec2(displaySize.x / 2.f, displaySize.y / 2.f);
+  glm::vec2 centerDir = boids[selfIndex].position - glm::vec2(displaySize.x / 2.f, displaySize.y / 2.f);
   if (glm::length(centerDir) > 0.f) {
     centerDir = glm::normalize(centerDir);
     force += -centerDir * (desiredDistance * 4 / glm::length(centerDir));

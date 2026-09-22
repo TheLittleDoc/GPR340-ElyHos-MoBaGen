@@ -17,7 +17,7 @@ public:
   float getBaseWeightMultiplier() override { return 1.f; }
 
   glm::vec2 computeForce(const std::vector<BoidView>& boids, int selfIndex) override;
-  bool drawImguiRuleExtra() override;
+  bool drawImguiRuleExtra();
   void drawRadius(const BoidView& boid, ImDrawList* dl) const override;
 };
 

@@ -12,7 +12,7 @@ public:
   ~JohnConway() override = default;
   std::string GetName() override { return "JohnConway"; }
   void Step(World& world) override;
-  int CountNeighbors(World& world, Point2D point);
+  static int CountNeighbors(World& world, Point2D point);
   GameOfLifeTileSetEnum GetTileSet() override { return GameOfLifeTileSetEnum::Square; };
 
 private:

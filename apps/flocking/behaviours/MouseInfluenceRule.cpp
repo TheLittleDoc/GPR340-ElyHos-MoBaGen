@@ -13,7 +13,7 @@ glm::vec2 MouseInfluenceRule::computeForce(const std::vector<BoidView>& boids, i
     return {};
   }
   glm::vec2 mousePos = {ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y};
-  float mag = glm::length(mousePos - boid.position);
+  float mag = glm::length(mousePos - boids[selfIndex].position);
   constMultiplier = 100000.f;
   if (mag < 0.0001f) {
     std::mt19937 rng(std::random_device{}());
@@ -24,7 +24,7 @@ glm::vec2 MouseInfluenceRule::computeForce(const std::vector<BoidView>& boids, i
     return randDir * constMultiplier;
   }
 
-  glm::vec2 direction = mousePos - boid.position;
+  glm::vec2 direction = mousePos - boids[selfIndex].position;
   force = glm::normalize(direction);
   force = force * (isRepulsive ? -1.f : 1.f) * (constMultiplier / mag);
 
